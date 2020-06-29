@@ -1,7 +1,9 @@
 import React,{Component} from "react";
-import Per from './person2';
+import Peerson from './personFormat';
 import '../App.css';
-import Radium,{StyleRoot} from 'radium';
+import Radium from 'radium';
+import ErrorBoundary from './ErrorBoundary';
+import CockPit from './cockpit';
 
 class Person extends Component{
 
@@ -66,54 +68,30 @@ class Person extends Component{
     render(){
       // console.log(this.state.persons);
       let personal = null
-
-      const btn={
-        backgroundColor:'green',
-        border:'1px solid #fff',
-        color:'white',
-        padding:'16px',
-        marginTop:'10px',
-        ':hover':{
-          backgroundColor:'lightgreen',
-          color:'black'
-        }
-      }
-
       if(this.state.showPersons){
           personal=(
                 <div>
-                      {this.state.persons.map((ace,index)=>{
-                          return (<Per key={ace.id} name={ace.name} age={ace.age}
-                                  click={()=>this.deletePerson(index)}
-                                  change={e=>this.changeName(e,ace.id)} />)
-                      })}
+                  <Peerson persons={this.state.persons}
+                      clicked={this.deletePerson}
+                      changed={this.changeName}
+                  />
                 </div>
           );
-          btn.backgroundColor='red'
-          btn[':hover']={
-            backgroundColor:'yellow',
-            color:'blue'
-          }
       }
-      const classes=[]
-      if(this.state.persons.length <=2){
-        classes.push('red') //classes=['red']
-      }
-      if(this.state.persons.length <=1){
-        classes.push('bold') //classes=['red','bold']
-      }
+      // const random = Math.random();
+      // if(random > 0.5){
+      //   throw new Error('Something is wrong')
+      // }
+
 
         return(
-          <StyleRoot>
+
             <div className="App">
-              <h1>Hello from React World</h1>
-              <p className={classes.join(' ')}>Chrome debugger is powerful</p>
-              {/*<button style={btn} onClick={this.SwitchName}>Switch Name</button>*/}
-              <button style={btn} onClick={this.togglePersons}>Toggle Person</button>
+                <CockPit persons={this.state.persons} showPersons={this.state.showPersons} toggle={this.togglePersons} />
                 {personal}
             </div>
-          </StyleRoot>
+
         )
     }
 }
-export default Radium(Person)
+export default Person
