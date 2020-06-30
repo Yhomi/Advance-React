@@ -4,6 +4,7 @@ import UserInput from "./components/userInput";
 import UserOutput from './components/userOutput';
 import Validation from './components/ValidationComponent';
 import CharComp from './components/charComponent';
+import Press from './components/pressComp';
 
 import './App.css';
 
@@ -47,13 +48,14 @@ class App extends Component{
         <UserOutput  userName={this.state.username} />
         <UserOutput  userName="BigMom" />
         <UserOutput  userName='Kaido' /> */}
-        <input type="text"
+        {/*<input type="text"
           onChange={this.inputChange}
           value={this.state.userInput}>
         </input>
         <p>{this.state.userInput}</p>
         <Validation inputLength={this.state.userInput.length} />
-        {charList}
+        {charList} */}
+        <Press />
       </div>
     );
   }

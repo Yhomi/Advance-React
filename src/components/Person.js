@@ -4,8 +4,17 @@ import '../App.css';
 import Radium from 'radium';
 import ErrorBoundary from './ErrorBoundary';
 import CockPit from './cockpit';
+import WithClass from './WithClass';
+import hoc from './hoc';
+import Aux from './auxiliary';
 
 class Person extends Component{
+  constructor(props){
+    super(props)
+    console.log('[Person.js] constructor')
+  }
+
+
 
     state={
         persons:[
@@ -14,9 +23,15 @@ class Person extends Component{
                   {id:'3',name:'Ussop',age:20}
                 ],
         otherState:'Some other state',
-        showPersons:false
-
+        showPersons:false,
+        showCockpit:true
     }
+
+    static getDerivedStateFromProps(props,state){
+      console.log('[Person.js] getDerivedStateFromProps',props);
+      return state;
+    }
+
 
 
 
@@ -65,8 +80,27 @@ class Person extends Component{
       this.setState({persons:Newpersons})
     }
 
+    // componentWillMount(){
+    //   console.log('[Person.js] componentWillMount');
+    // }
+
+    componentDidMount(){
+      console.log('[Person.js] componentDidMount');
+    }
+
+    shouldComponentUpdate(nextProps,nextState){
+      console.log('[Person.js]: shouldComponentUpdate');
+      return true;
+    }
+
+    componentDidUpdate(){
+      console.log('[Person.js]: componentDidUpdate');
+    }
+
+
+
     render(){
-      // console.log(this.state.persons);
+       console.log('[Person.js] render');
       let personal = null
       if(this.state.showPersons){
           personal=(
@@ -86,12 +120,13 @@ class Person extends Component{
 
         return(
 
-            <div className="App">
-                <CockPit persons={this.state.persons} showPersons={this.state.showPersons} toggle={this.togglePersons} />
+            <Aux>
+              <button onClick={()=>{this.setState({showCockpit:false})}}>Remove CockPit</button>
+                {this.state.showCockpit ?<CockPit titleApp={this.props.title} personsLength={this.state.persons.length} showPersons={this.state.showPersons} toggle={this.togglePersons}  /> : null}
                 {personal}
-            </div>
+            </Aux>
 
         )
     }
 }
-export default Person
+export default hoc(Person,'App')
