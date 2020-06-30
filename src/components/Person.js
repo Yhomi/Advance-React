@@ -7,6 +7,7 @@ import CockPit from './cockpit';
 import WithClass from './WithClass';
 import hoc from './hoc';
 import Aux from './auxiliary';
+import AuthContext from './authContext';
 
 class Person extends Component{
   constructor(props){
@@ -24,7 +25,9 @@ class Person extends Component{
                 ],
         otherState:'Some other state',
         showPersons:false,
-        showCockpit:true
+        showCockpit:true,
+        stateCounter:0,
+        authenticated:false
     }
 
     static getDerivedStateFromProps(props,state){
@@ -77,7 +80,13 @@ class Person extends Component{
       person.name=e.target.value
       const Newpersons =[...this.state.persons]
       Newpersons[personIndex]=person;
-      this.setState({persons:Newpersons})
+      this.setState((prevState,props)=>{
+        return{persons:Newpersons,stateCounter:prevState.stateCounter +1}
+      })
+    }
+
+    loginHandler = ()=>{
+      this.setState({authenticated:true})
     }
 
     // componentWillMount(){
@@ -108,6 +117,7 @@ class Person extends Component{
                   <Peerson persons={this.state.persons}
                       clicked={this.deletePerson}
                       changed={this.changeName}
+
                   />
                 </div>
           );
@@ -122,8 +132,15 @@ class Person extends Component{
 
             <Aux>
               <button onClick={()=>{this.setState({showCockpit:false})}}>Remove CockPit</button>
-                {this.state.showCockpit ?<CockPit titleApp={this.props.title} personsLength={this.state.persons.length} showPersons={this.state.showPersons} toggle={this.togglePersons}  /> : null}
+              <AuthContext.Provider value={{authenticated:this.state.authenticated,login:this.loginHandler}}>
+                {this.state.showCockpit ?<CockPit titleApp={this.props.title}
+                                            personsLength={this.state.persons.length}
+                                            showPersons={this.state.showPersons}
+                                            toggle={this.togglePersons}
+
+                                             /> : null}
                 {personal}
+              </AuthContext.Provider>
             </Aux>
 
         )

@@ -5,6 +5,8 @@ import UserOutput from './components/userOutput';
 import Validation from './components/ValidationComponent';
 import CharComp from './components/charComponent';
 import Press from './components/pressComp';
+import Clicked from './components/clicked';
+import Hover from './components/hover';
 
 import './App.css';
 
@@ -56,6 +58,8 @@ class App extends Component{
         <Validation inputLength={this.state.userInput.length} />
         {charList} */}
         <Press />
+        <Clicked />
+        <Hover />
       </div>
     );
   }

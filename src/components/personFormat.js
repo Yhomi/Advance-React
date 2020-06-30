@@ -34,6 +34,7 @@ class PersonFormatter extends PureComponent{
     return this.props.persons.map((ace,index)=>{
             return <ErrorBoundary key={ace.id}><Per  name={ace.name} age={ace.age}
                     click={()=>this.props.clicked(index)}
+                    
                     change={e=>this.props.changed(e,ace.id)} /></ErrorBoundary>
         })
   }

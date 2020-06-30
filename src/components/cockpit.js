@@ -1,12 +1,19 @@
-import React,{useEffect} from 'react';
+import React,{useEffect,useRef,useContext} from 'react';
+import AuthContext from './authContext';
 
 const Cockpit = (props)=>{
+  const toggleBtnRef = useRef()
+  const authContext = useContext(AuthContext)
+  console.log('Login:',authContext.login)
   useEffect(() =>{
     console.log('[Cockpit.js] useEffect');
+    console.log(toggleBtnRef)
     const timer = setTimeout(()=>{
-      alert('useEffect')
+      toggleBtnRef.current.click()
+      // alert('useEffect')
     },2000)
     return ()=>{
+
       clearTimeout(timer)
       console.log('[CockPit.js]:useEffect clean up works well')
     }
@@ -45,7 +52,10 @@ const Cockpit = (props)=>{
       <h1>Hi I am {props.titleApp}</h1>
       <p className={classes.join(' ')}>Chrome debugger is powerful</p>
       {/*<button style={btn} onClick={this.SwitchName}>Switch Name</button>*/}
-      <button style={btn} onClick={props.toggle}>Toggle Person</button>
+      <button ref={toggleBtnRef} style={btn} onClick={props.toggle}>Toggle Person</button>
+      {/*<AuthContext.Consumer>{(context)=><button onClick={context.login}>Login</button>}</AuthContext.Consumer>*/}
+      <button onClick={authContext.login}>Login</button>
+
     </div>
   )
 }
